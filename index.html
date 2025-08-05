@@ -18,11 +18,9 @@
   --border-color: rgba(255, 255, 255, 0.08);
   --accent-blue: #70A1FF;
   --accent-cyan: #4AEEF5;
-  --accent-gradient: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
   --btn-gradient: linear-gradient(45deg, #4AEEF5, #70A1FF);
   --btn-text: #05081A;
-  --card-radius: 12px;
-  --spacing-base: 16px;
+  --card-radius: 10px;
   font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial;
 }
 html, body{
@@ -32,131 +30,132 @@ html, body{
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
 }
-.app-layout{
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-/* Header/Topbar */
+.app-layout{ display:flex; flex-direction:column; height:100%; }
+
 .topbar{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 0.85rem 1.25rem;
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-secondary);
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 .logo{
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   background: linear-gradient(135deg, var(--bg-card), rgba(255,255,255,0.02));
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border-color);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 .brand h1{
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   margin: 0;
 }
 .brand p{
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
 }
 .main-container{
   flex: 1;
   display: grid;
-  grid-template-columns: 380px 1fr;
-  gap: 24px;
-  padding: 24px;
+  grid-template-columns: 360px 1fr;
+  gap: 18px;
+  padding: 18px;
   overflow: hidden;
-  max-width: 1600px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 .panel{
   background: var(--bg-card);
   border-radius: var(--card-radius);
-  padding: 20px;
+  padding: 16px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
 }
 .panel h3{
-  font-size: 1.1rem;
-  margin: 0 0 10px 0;
+  font-size: 1rem;
+  margin: 0 0 8px 0;
   color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .small{
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .input, textarea, select{
   width: 100%;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.08);
   background: var(--bg-secondary);
   color: inherit;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   box-sizing: border-box;
 }
 .input:focus, textarea:focus, select:focus{
   outline: none;
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 2px rgba(112, 161, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(112, 161, 255, 0.12);
 }
 .row{
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  align-items: center;
 }
 .btn{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
+  padding: 8px 12px;
   border-radius: 8px;
   border: none;
   background: var(--btn-gradient);
   color: var(--btn-text);
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.15s, box-shadow 0.15s;
+  font-size: 0.85rem;
 }
 .btn:hover{
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 .btn.ghost{
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.06);
   color: var(--text-secondary);
+  padding: 7px 10px;
+  font-weight: 600;
 }
 .btn.ghost:hover{
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.03);
   transform: none;
   box-shadow: none;
 }
 .subject-list{
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-height: 250px;
+  gap: 8px;
+  max-height: 240px;
   overflow-y: auto;
-  padding-right: 8px;
+  padding-right: 6px;
 }
 .subject-list::-webkit-scrollbar{ width: 8px; }
 .subject-list::-webkit-scrollbar-track{ background: var(--bg-secondary); border-radius: 10px; }
@@ -164,27 +163,29 @@ html, body{
 .subject-card{
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: var(--card-radius);
-  background: rgba(255,255,255,0.03);
+  gap: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-color);
   cursor: grab;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.12s, box-shadow 0.12s;
+  font-size: 0.92rem;
 }
 .subject-card:hover{
-  background: rgba(255,255,255,0.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: rgba(255,255,255,0.04);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 .sub-swatch{
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  flex: 0 0 40px;
 }
 .sub-meta strong{
   display: block;
@@ -192,53 +193,64 @@ html, body{
 }
 .sub-meta small{
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
 }
-/* Timeline */
+
 .timeline-panel{
-  padding: 20px;
+  padding: 14px;
   overflow: hidden;
 }
 .timeline-wrap{
   position: relative;
   overflow: auto;
-  padding: 1rem;
+  padding: 6px;
 }
-/* แก้ไข Grid Layout เพื่อให้ช่องและเวลาตรงกัน */
+
 .timeline{
   display: grid;
-  grid-template-columns: 200px repeat(var(--num-hours), minmax(96px, 1fr));
+  grid-template-columns: 200px repeat(var(--num-hours), minmax(56px, 1fr));
+  grid-auto-rows: 72px;
+  gap: 0;
+  width: 100%;
+  align-items: stretch;
+  box-sizing: border-box;
 }
+
 .timeline-header, .timeline-day{
   display: contents;
 }
 .timeline-header-cell{
-  padding: 10px;
+  padding: 8px 6px;
   text-align: center;
-  font-weight: 500;
-  font-size: 0.85rem;
+  font-weight: 600;
+  font-size: 0.82rem;
   color: var(--text-secondary);
   border-left: 1px solid var(--border-color);
+  box-sizing: border-box;
+  min-width: 48px;
 }
 .timeline-header-cell.day-label{
   border-left: none;
+  text-align: left;
+  padding-left: 14px;
 }
 .day-label-cell{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10px;
-  font-weight: 500;
+  padding: 8px 12px;
+  font-weight: 600;
   font-size: 0.9rem;
   border-right: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   background: rgba(255,255,255,0.01);
+  box-sizing: border-box;
 }
-.day-label-cell strong{ font-weight: 700; font-size: 1rem; }
-.day-label-cell small{ font-size: 0.8rem; color: var(--text-secondary); }
+.day-label-cell strong{ font-weight: 700; font-size: 0.98rem; }
+.day-label-cell small{ font-size: 0.76rem; color: var(--text-secondary); }
+
 .slot{
-  min-width: 96px;
-  height: 80px;
+  height: 100%;
   border-left: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
   position: relative;
@@ -247,39 +259,41 @@ html, body{
   justify-content: center;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.12s;
+  padding: 6px;
+  box-sizing: border-box;
+  font-size: 0.82rem;
+  overflow: hidden;
 }
-.slot.covered{
-  background: rgba(255,255,255,0.02);
-  cursor: default;
-}
-.slot:not(.covered):hover{
-  background: rgba(255,255,255,0.05);
-}
+.slot.covered{ background: rgba(255,255,255,0.02); cursor: default; }
+.slot:not(.covered):hover{ background: rgba(255,255,255,0.04); }
+
 .placement{
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: 6px;
-  right: 6px;
+  position: relative;
+  margin: 4px;
+  height: calc(100% - 8px);
+  max-height: 100%;
+  box-sizing: border-box;
   border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  padding: 6px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.26);
   cursor: grab;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 0.8rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  transition: transform 0.12s, box-shadow 0.12s;
+  overflow: hidden;
+  z-index: 3;
 }
 .placement:hover{
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.38);
 }
-.placement strong{ font-size: 0.9rem; font-weight: 700; }
-.placement small{ font-size: 0.75rem; opacity: 0.9; }
+.placement strong{ font-size: 0.9rem; font-weight: 700; display:block; margin-bottom:6px; }
+.placement small{ font-size: 0.72rem; opacity: 0.95; }
 
-/* Modal */
 .modal-backdrop{
   position: fixed;
   inset: 0;
@@ -291,9 +305,9 @@ html, body{
 }
 .modal{
   width: 520px;
-  max-width: 90%;
+  max-width: 92%;
   background: var(--bg-card);
-  padding: 24px;
+  padding: 18px;
   border-radius: var(--card-radius);
   border: 1px solid var(--border-color);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -301,20 +315,20 @@ html, body{
   flex-direction: column;
 }
 .modal h3{
-  font-size: 1.2rem;
-  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  margin: 0 0 12px 0;
 }
 .label{
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   margin-bottom: 6px;
 }
 .form-row{
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 .modal-content-gap{
-  margin-top: 16px;
+  margin-top: 12px;
 }
 .link-list{
   display: flex;
@@ -328,7 +342,7 @@ html, body{
   align-items: center;
   gap: 8px;
   padding: 8px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.04);
   border-radius: 6px;
 }
 .link-list-item a{
@@ -346,21 +360,30 @@ html, body{
   color: var(--text-secondary);
   cursor: pointer;
 }
-/* Responsive */
+
 @media (max-width: 1024px){
   .main-container{
     grid-template-columns: 1fr;
-    padding: 12px;
-    gap: 16px;
+    padding: 10px;
+    gap: 12px;
   }
-  .timeline-panel{ padding: 12px; }
-  .topbar{ padding: 12px 16px; }
+  .timeline-panel{ padding: 10px; }
+  .topbar{ padding: 10px 12px; }
   .timeline{
-    grid-template-columns: 100px repeat(var(--num-hours), minmax(60px, 1fr));
+    grid-template-columns: 50px repeat(var(--num-hours), minmax(48px, 1fr));
+    grid-auto-rows: 68px;
   }
-  .day-label-cell{ display: none; }
-  .timeline-header-cell:first-of-type{ border-left: none; }
-  .timeline-day .slot:first-of-type{ border-left: 1px solid var(--border-color); }
+  .timeline-wrap{
+    padding: 0;
+    overflow-x: auto;
+  }
+  .day-label-cell{
+    padding: 6px;
+    min-width: 46px;
+    border-right: 1px solid var(--border-color);
+  }
+  .day-label-cell strong{ display: none; }
+  .day-label-cell small{ display:block; text-align:center; color:var(--text-secondary) }
 }
 </style>
 </head>
@@ -369,14 +392,14 @@ html, body{
   <div class="topbar">
     <div class="brand">
       <div class="logo" aria-hidden="true">
-  <img src="logo.png" alt="Logo" width="28" height="28" />
-</div>
+        <img src="logo.png" alt="Logo" width="26" height="26" />
+      </div>
       <div>
         <h1>AllStar</h1>
         <p>จัดตารางเรียน</p>
       </div>
     </div>
-    <div style="display:flex;gap:12px;align-items:center">
+    <div style="display:flex;gap:10px;align-items:center">
       <button id="exportPng" class="btn">Export PNG</button>
       <button id="exportJson" class="btn ghost">Export JSON</button>
     </div>
@@ -384,22 +407,22 @@ html, body{
 
   <div class="main-container">
     <aside class="panel">
-      <h3 style="margin-bottom: 20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M12 2L2 7l10 5 10-5L12 2zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> จัดการวิชา</h3>
+      <h3 style="margin-bottom: 14px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M12 2L2 7l10 5 10-5L12 2zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> จัดการวิชา</h3>
       <div class="small">เพิ่มรายวิชาใหม่ (ลากไปยัง timeline เพื่อวาง)</div>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top: 10px;">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top: 10px;">
         <input id="subName" class="input" placeholder="ชื่อวิชา (เช่น ฟิสิกส์)" />
         <input id="subRoom" class="input" placeholder="ห้อง / หมายเหตุ" />
-        <div class="row">
-          <input id="subColor" type="color" class="input" value="#7af0e7" style="width:64px;padding:6px" />
+        <div class="row" style="align-items:center;">
+          <input id="subColor" type="color" class="input" value="#7af0e7" style="width:56px;padding:6px" />
           <button id="addSub" class="btn" style="flex:1;">เพิ่มวิชา</button>
         </div>
       </div>
       <div class="modal-content-gap">
-        <h3 style="margin-bottom: 12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 6v6l4 2"></path></svg> รายการวิชา</h3>
+        <h3 style="margin-bottom: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 6v6l4 2"></path></svg> รายการวิชา</h3>
         <div class="subject-list" id="subjectList"></div>
       </div>
       <div class="modal-content-gap" style="margin-top: auto;">
-        <div class="row">
+        <div class="row" style="gap:8px;">
           <button id="saveBtn" class="btn ghost" style="flex:1;">บันทึก</button>
           <button id="importBtn" class="btn ghost" style="flex:1;">Import JSON</button>
           <button id="clearAll" class="btn ghost" style="flex:1;">ล้างทั้งหมด</button>
@@ -409,22 +432,22 @@ html, body{
     </aside>
 
     <main class="panel timeline-panel">
-      <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <div class="row" style="align-items: center; gap: 20px;">
+      <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div class="row" style="align-items: center; gap: 16px;">
           <div class="row" style="align-items: center;">
             <label class="label" style="white-space: nowrap; margin-right: 8px;">เริ่มเวลา</label>
-            <input id="startHour" type="number" class="input" value="8" style="width:88px" min="6" max="12" />
+            <input id="startHour" type="number" class="input" value="8" style="width:84px" min="6" max="12" />
           </div>
           <div class="row" style="align-items: center;">
             <label class="label" style="white-space: nowrap; margin-right: 8px;">จำนวนชั่วโมง</label>
-            <input id="numHours" type="number" class="input" value="9" style="width:88px" min="4" max="14" />
+            <input id="numHours" type="number" class="input" value="9" style="width:84px" min="4" max="14" />
           </div>
           <button id="renderGrid" class="btn ghost">อัปเดต</button>
         </div>
         <div class="small" style="text-align: right;">ลากวาง, คลิกเพื่อแก้คาบ, คลิกขวาเพื่อลบ</div>
       </div>
       <div class="timeline-wrap" id="timelineWrap">
-        <div class="timeline" id="timelineRoot"></div>
+        <div class="timeline" id="timelineRoot" aria-label="ตารางเรียน"></div>
       </div>
     </main>
   </div>
@@ -432,10 +455,10 @@ html, body{
   <div class="modal-backdrop" id="placementModal">
     <div class="modal" role="dialog" aria-modal="true">
       <h3 id="placementTitle">ตั้งค่าคาบ</h3>
-      <div class="row" style="gap: 16px;">
-        <div id="modalSwatch" style="width:72px;height:56px;border-radius:12px; border: 1px solid var(--border-color);"></div>
+      <div class="row" style="gap: 12px;">
+        <div id="modalSwatch" style="width:60px;height:44px;border-radius:10px; border: 1px solid var(--border-color);"></div>
         <div style="flex:1">
-          <div id="modalSubName" style="font-weight:700;font-size:16px"></div>
+          <div id="modalSubName" style="font-weight:700;font-size:15px"></div>
           <div id="modalSubRoom" style="color:var(--text-secondary);font-size:13px"></div>
         </div>
       </div>
@@ -463,7 +486,7 @@ html, body{
       </div>
       <div class="modal-content-gap">
         <div class="label">ลิงก์</div>
-        <button id="modalNoteLinksBtn" class="btn ghost" style="width: 100%;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> จัดการโน้ตลิงก์</button>
+        <button id="modalNoteLinksBtn" class="btn ghost" style="width: 100%;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> จัดการโน้ตลิงก์</button>
       </div>
       <div class="modal-content-gap" style="display:flex;gap:8px;justify-content:flex-end;">
         <button id="modalDelete" class="btn ghost">ลบ</button>
@@ -481,7 +504,7 @@ html, body{
         <div class="label">เพิ่มลิงก์ใหม่</div>
         <input id="linkNameInput" class="input" placeholder="ชื่อลิงก์ (เช่น Google Classroom)" />
         <input id="linkUrlInput" class="input" type="url" placeholder="URL ของลิงก์ (เช่น https://classroom.google.com)" style="margin-top: 8px;" />
-        <button id="addLinkBtn" class="btn" style="width: 100%; margin-top: 12px;">เพิ่มลิงก์</button>
+        <button id="addLinkBtn" class="btn" style="width: 100%; margin-top: 10px;">เพิ่มลิงก์</button>
       </div>
       <div class="modal-content-gap" style="display:flex;gap:8px;justify-content:flex-end;">
         <button id="linksModalCancel" class="btn ghost">ปิด</button>
@@ -489,15 +512,13 @@ html, body{
     </div>
   </div>
 </div>
+
 <script>
-/* ============================
-  Data model & helpers
-  ============================ */
 const DAYS = ['จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์'];
+const DAY_ABBREVIATIONS = ['จ','อ','พ','พฤ','ศ'];
 let subjects = [], placements = [], settings = { startHour:8, numHours:9 };
 const uid = ()=> 'id'+Math.random().toString(36).slice(2,9);
 
-/* persistence */
 function saveAll(){
   localStorage.setItem('ns_subjects', JSON.stringify(subjects));
   localStorage.setItem('ns_placements', JSON.stringify(placements));
@@ -516,14 +537,12 @@ function loadAll(){
   }catch(e){ console.error(e) }
 }
 
-/* toast */
 function toast(msg){
   const el = document.createElement('div'); el.textContent = msg;
-  Object.assign(el.style, { position:'fixed', right:'18px', bottom:'18px', padding:'10px 14px', background:'var(--btn-gradient)', color:'var(--btn-text)', borderRadius:'10px', fontWeight:800, zIndex:99999, transition:'opacity 0.4s' });
+  Object.assign(el.style, { position:'fixed', right:'16px', bottom:'16px', padding:'8px 12px', background:'var(--btn-gradient)', color:'var(--btn-text)', borderRadius:'8px', fontWeight:800, zIndex:99999, transition:'opacity 0.4s' });
   document.body.appendChild(el); setTimeout(()=> el.style.opacity=0,2200); setTimeout(()=> el.remove(),2600);
 }
 
-/* color utilities */
 function hexToRgb(hex){
   if(!hex) return {r:0,g:0,b:0};
   hex = hex.replace('#','');
@@ -532,9 +551,7 @@ function hexToRgb(hex){
   return { r:(bi>>16)&255, g:(bi>>8)&255, b:bi&255 };
 }
 function luminance(r,g,b){
-  const a=[r,g,b].map(v=>{
-    v=v/255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4);
-  });
+  const a=[r,g,b].map(v=>{ v=v/255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4); });
   return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
 }
 function contrastText(hex){
@@ -542,9 +559,6 @@ function contrastText(hex){
   return L < 0.35 ? '#ffffff' : '#042033';
 }
 
-/* ============================
-  Render left subject list
-  ============================ */
 function renderSubjects(){
   const list = document.getElementById('subjectList'); list.innerHTML='';
   subjects.forEach(s=>{
@@ -557,10 +571,10 @@ function renderSubjects(){
 
     const md = document.createElement('div'); md.className='sub-meta'; md.innerHTML = `<strong>${s.name}</strong><small>${s.room || ''}${s.teacher? ' • ' + s.teacher : ''}</small>`;
 
-    const btns = document.createElement('div'); btns.style.marginLeft='auto'; btns.style.display='flex'; btns.style.gap='8px';
-    const use = document.createElement('button'); use.className='btn ghost'; use.textContent='ใช้'; use.onclick=()=> { activeSubject = s.id; toast('เลือก ' + s.name + ' — คลิกช่องเพื่อวาง'); };
-    const edit = document.createElement('button'); edit.className='btn ghost'; edit.textContent='แก้'; edit.onclick = ()=> openSubjectEditor(s.id);
-    const del = document.createElement('button'); del.className='btn ghost'; del.textContent='ลบ'; del.onclick = ()=> { if(!confirm('ลบ '+s.name+'?')) return; subjects = subjects.filter(x=>x.id!==s.id); placements = placements.filter(p=>p.subjectId!==s.id); renderSubjects(); renderTimeline(); saveAll(); };
+    const btns = document.createElement('div'); btns.style.marginLeft='auto'; btns.style.display='flex'; btns.style.gap='6px';
+    const use = document.createElement('button'); use.className='btn ghost'; use.style.fontSize='0.78rem'; use.textContent='ใช้'; use.onclick=()=> { activeSubject = s.id; toast('เลือก ' + s.name + ' — คลิกช่องเพื่อวาง'); };
+    const edit = document.createElement('button'); edit.className='btn ghost'; edit.style.fontSize='0.78rem'; edit.textContent='แก้'; edit.onclick = ()=> openSubjectEditor(s.id);
+    const del = document.createElement('button'); del.className='btn ghost'; del.style.fontSize='0.78rem'; del.textContent='ลบ'; del.onclick = ()=> { if(!confirm('ลบ '+s.name+'?')) return; subjects = subjects.filter(x=>x.id!==s.id); placements = placements.filter(p=>p.subjectId!==s.id); renderSubjects(); renderTimeline(); saveAll(); };
 
     btns.appendChild(use); btns.appendChild(edit); btns.appendChild(del);
 
@@ -569,9 +583,6 @@ function renderSubjects(){
   });
 }
 
-/* ============================
-  Timeline render
-  ============================ */
 let activeSubject = null;
 function renderTimeline(){
   const root = document.getElementById('timelineRoot'); root.innerHTML='';
@@ -580,43 +591,52 @@ function renderTimeline(){
   const hours = Number(document.getElementById('numHours').value) || settings.numHours;
   settings.startHour = start; settings.numHours = hours;
 
-  // Set CSS variables for grid
   document.documentElement.style.setProperty('--num-hours', hours);
 
-  // header row (time labels)
-  const header = document.createElement('div'); header.className = 'timeline-header';
-  const leftHead = document.createElement('div'); leftHead.className = 'timeline-header-cell day-label'; leftHead.textContent = 'วัน'; header.appendChild(leftHead); // Day label cell
+  // HEADER (grid-row: 1)
+  // left header (day label)
+  const leftHead = document.createElement('div'); leftHead.className = 'timeline-header-cell day-label'; leftHead.textContent = 'วัน';
+  leftHead.style.gridRow = '1';
+  leftHead.style.gridColumn = `1`;
+  root.appendChild(leftHead);
+
   for(let h=0; h<hours; h++){
     const hh = start + h;
     const tcell = document.createElement('div'); tcell.className = 'timeline-header-cell';
     tcell.textContent = `${hh}:00`;
-    header.appendChild(tcell);
+    tcell.style.gridRow = '1';
+    tcell.style.gridColumn = `${h+2}`;
+    root.appendChild(tcell);
   }
-  root.appendChild(header);
 
-  placements = placements.filter(p=> p.hourIndex < settings.numHours ).map(p=> { p.duration = Math.min(p.duration, settings.numHours - p.hourIndex); return p; });
+  placements = placements.map(p=> {
+    if(p.hourIndex >= settings.numHours) p.hourIndex = Math.max(0, settings.numHours-1);
+    p.duration = Math.min(p.duration || 1, Math.max(1, settings.numHours - p.hourIndex));
+    return p;
+  }).filter(p => p.duration > 0);
 
-  // each day row
+  // day rows (each day -> grid-row = d+2)
   for(let d=0; d<DAYS.length; d++){
-    const dayRow = document.createElement('div'); dayRow.className = 'timeline-day';
-    dayRow.dataset.day = d;
-    
-    // Day label column
     const dayLabelCell = document.createElement('div');
     dayLabelCell.className = 'day-label-cell';
-    dayLabelCell.innerHTML = `<strong>${DAYS[d]}</strong><small>วัน ${DAYS[d]}</small>`;
-    dayRow.appendChild(dayLabelCell);
+    dayLabelCell.innerHTML = `<strong>${DAYS[d]}</strong><small>${DAY_ABBREVIATIONS[d]}</small>`;
+    dayLabelCell.style.gridRow = `${d+2}`;
+    dayLabelCell.style.gridColumn = `1`;
+    root.appendChild(dayLabelCell);
 
     for(let h=0; h<hours; h++){
       const s = document.createElement('div'); s.className='slot empty'; s.dataset.h = h;
+      s.style.gridRow = `${d+2}`;
+      s.style.gridColumn = `${h+2}`;
+      s.dataset.day = d;
       s.addEventListener('dragover', e => e.preventDefault());
       s.addEventListener('drop', e => {
         e.preventDefault();
         const sid = e.dataTransfer.getData('text/sub');
         const pid = e.dataTransfer.getData('text/place');
+        const td = Number(s.dataset.day), th = Number(s.dataset.h);
         if(pid){
           const pl = placements.find(x=>x.id===pid); if(!pl) return;
-          const td = Number(s.closest('.timeline-day').dataset.day), th = Number(s.dataset.h);
           if(checkOverlap(pl.id, pl.subjectId, td, th, pl.duration)){
             if(!confirm('คาบจะชนกัน ต้องการแทนที่/ลบคาบที่ชนหรือไม่?')) return;
             removeOverlaps(td, th, pl.duration, pl.id);
@@ -624,72 +644,71 @@ function renderTimeline(){
           pl.day = td; pl.hourIndex = th; renderTimeline(); saveAll(); return;
         }
         if(sid){
-          openPlacementModal({subjectId: sid, day: Number(s.closest('.timeline-day').dataset.day), hourIndex: Number(s.dataset.h)});
+          openPlacementModal({subjectId: sid, day: td, hourIndex: th});
         }
       });
-      s.addEventListener('click', ()=>{
+      s.addEventListener('click', ()=>{ 
         if(activeSubject){
-          openPlacementModal({subjectId: activeSubject, day: Number(s.closest('.timeline-day').dataset.day), hourIndex: Number(s.dataset.h)});
+          openPlacementModal({subjectId: activeSubject, day: Number(s.dataset.day), hourIndex: Number(s.dataset.h)});
           activeSubject = null; return;
         }
-        const day = Number(s.closest('.timeline-day').dataset.day);
+        const day = Number(s.dataset.day);
         const h = Number(s.dataset.h);
         const found = placements.find(p => p.day==day && p.hourIndex <= h && (p.hourIndex + p.duration -1) >= h);
         if(found) {
             openPlacementModal({editId: found.id});
         }
       });
-      dayRow.appendChild(s);
+      root.appendChild(s);
     }
-    root.appendChild(dayRow);
   }
 
-  // render placements
   placements.forEach(p=>{
     renderPlacementOnRow(p, p.day);
   });
 }
+
 function renderPlacementOnRow(p, day){
   const root = document.getElementById('timelineRoot');
-  const dayRow = root.querySelector(`.timeline-day[data-day="${day}"]`);
-  if(!dayRow) return;
-
-  const startSlot = dayRow.querySelector(`.slot[data-h="${p.hourIndex}"]`);
-  if(!startSlot) return;
+  const existing = root.querySelector(`.placement[data-id="${p.id}"]`);
+  if(existing) existing.remove();
 
   const subj = subjects.find(s=>s.id===p.subjectId);
-  const totalW = (startSlot.getBoundingClientRect().width * p.duration) + (p.duration - 1) + 55;
+  if(!subj) return;
 
   const el = document.createElement('div');
   el.className = 'placement';
-  el.style.width = totalW + 'px';
-  el.draggable = true;
   el.dataset.id = p.id;
+
   const bg = subj.color || '#7af0e7';
   const text = contrastText(bg);
   el.style.background = bg;
   el.style.color = text;
-  el.style.border = `1px solid ${text === '#ffffff' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.18)'}`;
+  el.style.border = `1px solid ${text === '#ffffff' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.12)'}`;
+
   const teacher = p.meta?.teacher || subj.teacher || '';
-  const exam = p.meta?.exam ? 'สอบ ' + p.meta.exam : '';
-  el.innerHTML = `<strong>${subj.name}</strong><small>${subj.room || ''}${teacher ? ' • ' + teacher : ''}${exam ? ' • ' + exam : ''}</small>`;
+  const exam = p.meta?.exam ? ' • ' + p.meta.exam : '';
+  el.innerHTML = `<strong>${subj.name}</strong><small>${subj.room || ''}${teacher ? ' • ' + teacher: ''}${exam}</small>`;
+
+  el.draggable = true;
   el.addEventListener('dragstart', e=> e.dataTransfer.setData('text/place', p.id));
   el.addEventListener('click', e=> { e.stopPropagation(); openPlacementModal({editId: p.id}); });
+  el.addEventListener('contextmenu', e=> { e.preventDefault(); if(confirm('ลบคาบนี้?')){ placements = placements.filter(x=>x.id!==p.id); renderTimeline(); saveAll(); } });
 
-  el.addEventListener('contextmenu', e=> {
-    e.preventDefault();
-    if(confirm('ลบคาบนี้?')){ placements = placements.filter(x=>x.id!==p.id); renderTimeline(); saveAll(); }
-  });
+  const colStart = (p.hourIndex || 0) + 2;
+  const colEnd = colStart + (p.duration || 1);
+  const rowIndex = (day || 0) + 2; // header row = 1
 
-  startSlot.innerHTML = ''; startSlot.appendChild(el);
+  el.style.gridColumn = `${colStart} / ${colEnd}`;
+  el.style.gridRow = `${rowIndex} / ${rowIndex + 1}`;
 
-  for(let k=0;k<p.duration;k++){
-    const ssel = dayRow.querySelector(`.slot[data-h="${p.hourIndex + k}"]`);
-    if(ssel){
-      ssel.classList.add('covered');
-    }
+  root.appendChild(el);
+  for(let k=0;k<(p.duration||1);k++){
+    const sel = root.querySelector(`.slot[data-day="${day}"][data-h="${p.hourIndex + k}"]`);
+    if(sel) sel.classList.add('covered');
   }
 }
+
 function rangesOverlap(aStart,aLen,bStart,bLen){ const aEnd=aStart+aLen-1, bEnd=bStart+bLen-1; return !(aEnd < bStart || bEnd < aStart); }
 function checkOverlap(excludeId, subjectId, day, hourIndex, duration){
   for(const p of placements){
@@ -706,9 +725,6 @@ function removeOverlaps(day, hourIndex, duration, exceptId){
   placements = placements.filter(p => !toRem.includes(p));
 }
 
-/* ============================
-  Placement modal
-  ============================ */
 const placementModal = document.getElementById('placementModal');
 const modalTitle = document.getElementById('placementTitle');
 const modalSwatch = document.getElementById('modalSwatch');
@@ -818,9 +834,6 @@ function closeModal(){
   modalLinks = [];
 }
 
-/* ============================
-  Links modal
-  ============================ */
 const linksModal = document.getElementById('linksModal');
 const linkList = document.getElementById('linkList');
 const linkNameInput = document.getElementById('linkNameInput');
@@ -841,7 +854,7 @@ function openLinksModal() {
 function renderLinks() {
   linkList.innerHTML = '';
   if (modalLinks.length === 0) {
-    linkList.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 16px;">ยังไม่มีลิงก์</div>';
+    linkList.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 12px;">ยังไม่มีลิงก์</div>';
   } else {
     modalLinks.forEach((link, index) => {
       const linkItem = document.createElement('div');
@@ -877,9 +890,6 @@ linksModalCancel.addEventListener('click', () => {
   linksModal.style.display = 'none';
 });
 
-/* ============================
-  Buttons & File actions + misc
-  ============================ */
 document.getElementById('addSub').addEventListener('click', ()=>{
   const name = document.getElementById('subName').value.trim();
   const room = document.getElementById('subRoom').value.trim();
@@ -892,11 +902,7 @@ document.getElementById('addSub').addEventListener('click', ()=>{
 document.getElementById('renderGrid').addEventListener('click', ()=> { settings.startHour = Number(document.getElementById('startHour').value) || settings.startHour; settings.numHours = Number(document.getElementById('numHours').value) || settings.numHours; renderTimeline(); saveAll(); });
 document.getElementById('saveBtn').addEventListener('click', ()=> saveAll());
 document.getElementById('clearAll').addEventListener('click', ()=> { if(!confirm('จะล้างข้อมูลทั้งหมด?')) return; subjects=[]; placements=[]; renderSubjects(); renderTimeline(); saveAll(); });
-document.getElementById('exportJson').addEventListener('click', ()=>{
-  const data = { subjects, placements, settings, exportedAt: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' }); const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'neoschedule_export.json'; a.click(); URL.revokeObjectURL(url);
-});
+document.getElementById('exportJson').addEventListener('click', ()=>{ const data = { subjects, placements, settings, exportedAt: new Date().toISOString() }; const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'neoschedule_export.json'; a.click(); URL.revokeObjectURL(url); });
 document.getElementById('importBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
 document.getElementById('importFile').addEventListener('change', (e)=>{
   const f = e.target.files[0]; if(!f) return; const r = new FileReader();
@@ -925,17 +931,20 @@ document.addEventListener('contextmenu', function(e){
   }
 }, false);
 
-/* ============================
-  Init
-  ============================ */
+function openSubjectEditor(id){
+  const s = subjects.find(x=>x.id===id);
+  if(!s) return;
+  const name = prompt('แก้ชื่อวิชา', s.name);
+  if(name !== null) s.name = name;
+  const room = prompt('แก้ห้อง/หมายเหตุ', s.room || '');
+  if(room !== null) s.room = room;
+  renderSubjects(); renderTimeline(); saveAll();
+}
+
 (function init(){
   loadAll();
   document.getElementById('startHour').value = settings.startHour;
   document.getElementById('numHours').value = settings.numHours;
-  // if(subjects.length === 0){
-  //   subjects.push({ id: uid(), name:'คณิตศาสตร์', room:'ห้อง 101', color:'#7af0e7', teacher:'ครูสมชาย', exam:'', notes:''});
-  //   subjects.push({ id: uid(), name:'ภาษาอังกฤษ', room:'ห้อง 202', color:'#ffd166', teacher:'ครูไม', exam:'', notes:''});
-  // }
   renderSubjects();
   renderTimeline();
   if(!localStorage.getItem('ns_subjects')){
