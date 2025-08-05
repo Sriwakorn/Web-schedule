@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ALLSTAR - จัดตารางเรียน</title>
+<link rel="icon" href="logo.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<style>
+:root{
+  --bg-primary: #0A0B1A;
+  --bg-secondary: #0F1221;
+  --bg-card: #15192E;
+  --text-primary: #E6E8F2;
+  --text-secondary: #A0A9B8;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --accent-blue: #70A1FF;
+  --accent-cyan: #4AEEF5;
+  --accent-gradient: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+  --btn-gradient: linear-gradient(45deg, #4AEEF5, #70A1FF);
+  --btn-text: #05081A;
+  --card-radius: 12px;
+  --spacing-base: 16px;
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial;
+}
+html, body{
+  height: 100%;
+  margin: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.app-layout{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+/* Header/Topbar */
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo{
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--bg-card), rgba(255,255,255,0.02));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.brand h1{
+  font-size: 1.25rem;
+  margin: 0;
+}
+.brand p{
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.main-container{
+  flex: 1;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 24px;
+  padding: 24px;
+  overflow: hidden;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.panel{
+  background: var(--bg-card);
+  border-radius: var(--card-radius);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+.panel h3{
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.small{
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.input, textarea, select{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--bg-secondary);
+  color: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+.input:focus, textarea:focus, select:focus{
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(112, 161, 255, 0.2);
+}
+.row{
+  display: flex;
+  gap: 12px;
+}
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--btn-gradient);
+  color: var(--btn-text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.btn.ghost{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+}
+.btn.ghost:hover{
+  background: rgba(255,255,255,0.05);
+  transform: none;
+  box-shadow: none;
+}
+.subject-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.subject-list::-webkit-scrollbar{ width: 8px; }
+.subject-list::-webkit-scrollbar-track{ background: var(--bg-secondary); border-radius: 10px; }
+.subject-list::-webkit-scrollbar-thumb{ background: var(--border-color); border-radius: 10px; }
+.subject-card{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--card-radius);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border-color);
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.subject-card:hover{
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.sub-swatch{
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+}
+.sub-meta strong{
+  display: block;
+  font-size: 0.95rem;
+}
+.sub-meta small{
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+/* Timeline */
+.timeline-panel{
+  padding: 20px;
+  overflow: hidden;
+}
+.timeline-wrap{
+  position: relative;
+  overflow: auto;
+  padding: 1rem;
+}
+/* แก้ไข Grid Layout เพื่อให้ช่องและเวลาตรงกัน */
+.timeline{
+  display: grid;
+  grid-template-columns: 200px repeat(var(--num-hours), minmax(96px, 1fr));
+}
+.timeline-header, .timeline-day{
+  display: contents;
+}
+.timeline-header-cell{
+  padding: 10px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  border-left: 1px solid var(--border-color);
+}
+.timeline-header-cell.day-label{
+  border-left: none;
+}
+.day-label-cell{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.01);
+}
+.day-label-cell strong{ font-weight: 700; font-size: 1rem; }
+.day-label-cell small{ font-size: 0.8rem; color: var(--text-secondary); }
+.slot{
+  min-width: 96px;
+  height: 80px;
+  border-left: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.slot.covered{
+  background: rgba(255,255,255,0.02);
+  cursor: default;
+}
+.slot:not(.covered):hover{
+  background: rgba(255,255,255,0.05);
+}
+.placement{
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  right: 6px;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.8rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.placement:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+.placement strong{ font-size: 0.9rem; font-weight: 700; }
+.placement small{ font-size: 0.75rem; opacity: 0.9; }
+
+/* Modal */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.modal{
+  width: 520px;
+  max-width: 90%;
+  background: var(--bg-card);
+  padding: 24px;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+.modal h3{
+  font-size: 1.2rem;
+  margin: 0 0 16px 0;
+}
+.label{
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.form-row{
+  display: flex;
+  gap: 12px;
+}
+.modal-content-gap{
+  margin-top: 16px;
+}
+.link-list{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.link-list-item{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+.link-list-item a{
+  flex: 1;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.link-list-item button{
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+/* Responsive */
+@media (max-width: 1024px){
+  .main-container{
+    grid-template-columns: 1fr;
+    padding: 12px;
+    gap: 16px;
+  }
+  .timeline-panel{ padding: 12px; }
+  .topbar{ padding: 12px 16px; }
+  .timeline{
+    grid-template-columns: 100px repeat(var(--num-hours), minmax(60px, 1fr));
+  }
+  .day-label-cell{ display: none; }
+  .timeline-header-cell:first-of-type{ border-left: none; }
+  .timeline-day .slot:first-of-type{ border-left: 1px solid var(--border-color); }
+}
+</style>
+</head>
+<body>
+<div class="app-layout">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+  <img src="logo.png" alt="Logo" width="28" height="28" />
+</div>
+      <div>
+        <h1>AllStar</h1>
+        <p>จัดตารางเรียน</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <button id="exportPng" class="btn">Export PNG</button>
+      <button id="exportJson" class="btn ghost">Export JSON</button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <aside class="panel">
+      <h3 style="margin-bottom: 20px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M12 2L2 7l10 5 10-5L12 2zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg> จัดการวิชา</h3>
+      <div class="small">เพิ่มรายวิชาใหม่ (ลากไปยัง timeline เพื่อวาง)</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top: 10px;">
+        <input id="subName" class="input" placeholder="ชื่อวิชา (เช่น ฟิสิกส์)" />
+        <input id="subRoom" class="input" placeholder="ห้อง / หมายเหตุ" />
+        <div class="row">
+          <input id="subColor" type="color" class="input" value="#7af0e7" style="width:64px;padding:6px" />
+          <button id="addSub" class="btn" style="flex:1;">เพิ่มวิชา</button>
+        </div>
+      </div>
+      <div class="modal-content-gap">
+        <h3 style="margin-bottom: 12px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-blue);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 6v6l4 2"></path></svg> รายการวิชา</h3>
+        <div class="subject-list" id="subjectList"></div>
+      </div>
+      <div class="modal-content-gap" style="margin-top: auto;">
+        <div class="row">
+          <button id="saveBtn" class="btn ghost" style="flex:1;">บันทึก</button>
+          <button id="importBtn" class="btn ghost" style="flex:1;">Import JSON</button>
+          <button id="clearAll" class="btn ghost" style="flex:1;">ล้างทั้งหมด</button>
+        </div>
+        <input id="importFile" type="file" accept="application/json" style="display:none;" />
+      </div>
+    </aside>
+
+    <main class="panel timeline-panel">
+      <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div class="row" style="align-items: center; gap: 20px;">
+          <div class="row" style="align-items: center;">
+            <label class="label" style="white-space: nowrap; margin-right: 8px;">เริ่มเวลา</label>
+            <input id="startHour" type="number" class="input" value="8" style="width:88px" min="6" max="12" />
+          </div>
+          <div class="row" style="align-items: center;">
+            <label class="label" style="white-space: nowrap; margin-right: 8px;">จำนวนชั่วโมง</label>
+            <input id="numHours" type="number" class="input" value="9" style="width:88px" min="4" max="14" />
+          </div>
+          <button id="renderGrid" class="btn ghost">อัปเดต</button>
+        </div>
+        <div class="small" style="text-align: right;">ลากวาง, คลิกเพื่อแก้คาบ, คลิกขวาเพื่อลบ</div>
+      </div>
+      <div class="timeline-wrap" id="timelineWrap">
+        <div class="timeline" id="timelineRoot"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="placementModal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3 id="placementTitle">ตั้งค่าคาบ</h3>
+      <div class="row" style="gap: 16px;">
+        <div id="modalSwatch" style="width:72px;height:56px;border-radius:12px; border: 1px solid var(--border-color);"></div>
+        <div style="flex:1">
+          <div id="modalSubName" style="font-weight:700;font-size:16px"></div>
+          <div id="modalSubRoom" style="color:var(--text-secondary);font-size:13px"></div>
+        </div>
+      </div>
+      <div class="modal-content-gap form-row">
+        <div style="flex:1">
+          <div class="label">วัน</div>
+          <select id="modalDay" class="input"></select>
+        </div>
+        <div style="flex:1">
+          <div class="label">เริ่ม (index)</div>
+          <input id="modalHour" type="number" class="input" />
+        </div>
+        <div style="flex:1">
+          <div class="label">ความยาว (ชม.)</div>
+          <input id="modalDuration" type="number" class="input" min="1" />
+        </div>
+      </div>
+      <div class="modal-content-gap form-row">
+        <input id="modalTeacher" class="input" placeholder="ชื่อผู้สอน (ถ้ามี)" />
+        <input id="modalExam" type="date" class="input" />
+      </div>
+      <div class="modal-content-gap">
+        <div class="label">โน้ต</div>
+        <textarea id="modalNotes" rows="3" class="input" placeholder="บันทึกสั้นๆ สำหรับคาบนี้"></textarea>
+      </div>
+      <div class="modal-content-gap">
+        <div class="label">ลิงก์</div>
+        <button id="modalNoteLinksBtn" class="btn ghost" style="width: 100%;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> จัดการโน้ตลิงก์</button>
+      </div>
+      <div class="modal-content-gap" style="display:flex;gap:8px;justify-content:flex-end;">
+        <button id="modalDelete" class="btn ghost">ลบ</button>
+        <button id="modalCancel" class="btn ghost">ยกเลิก</button>
+        <button id="modalSave" class="btn">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="linksModal">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3 id="linksModalTitle">โน้ตลิงก์</h3>
+      <div class="link-list" id="linkList"></div>
+      <div class="modal-content-gap">
+        <div class="label">เพิ่มลิงก์ใหม่</div>
+        <input id="linkNameInput" class="input" placeholder="ชื่อลิงก์ (เช่น Google Classroom)" />
+        <input id="linkUrlInput" class="input" type="url" placeholder="URL ของลิงก์ (เช่น https://classroom.google.com)" style="margin-top: 8px;" />
+        <button id="addLinkBtn" class="btn" style="width: 100%; margin-top: 12px;">เพิ่มลิงก์</button>
+      </div>
+      <div class="modal-content-gap" style="display:flex;gap:8px;justify-content:flex-end;">
+        <button id="linksModalCancel" class="btn ghost">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+/* ============================
+  Data model & helpers
+  ============================ */
+const DAYS = ['จันทร์','อังคาร','พุธ','พฤหัส','ศุกร์'];
+let subjects = [], placements = [], settings = { startHour:8, numHours:9 };
+const uid = ()=> 'id'+Math.random().toString(36).slice(2,9);
+
+/* persistence */
+function saveAll(){
+  localStorage.setItem('ns_subjects', JSON.stringify(subjects));
+  localStorage.setItem('ns_placements', JSON.stringify(placements));
+  localStorage.setItem('ns_settings', JSON.stringify(settings));
+  try{ document.cookie = "ns_backup=" + encodeURIComponent(JSON.stringify({subjects,placements,settings})) + "; max-age=" + (60*60*24*7) + "; path=/"; }catch(e){}
+  toast('บันทึกแล้ว');
+}
+function loadAll(){
+  try{
+    const s = localStorage.getItem('ns_subjects');
+    const p = localStorage.getItem('ns_placements');
+    const st = localStorage.getItem('ns_settings');
+    if(s) subjects = JSON.parse(s);
+    if(p) placements = JSON.parse(p);
+    if(st) settings = JSON.parse(st);
+  }catch(e){ console.error(e) }
+}
+
+/* toast */
+function toast(msg){
+  const el = document.createElement('div'); el.textContent = msg;
+  Object.assign(el.style, { position:'fixed', right:'18px', bottom:'18px', padding:'10px 14px', background:'var(--btn-gradient)', color:'var(--btn-text)', borderRadius:'10px', fontWeight:800, zIndex:99999, transition:'opacity 0.4s' });
+  document.body.appendChild(el); setTimeout(()=> el.style.opacity=0,2200); setTimeout(()=> el.remove(),2600);
+}
+
+/* color utilities */
+function hexToRgb(hex){
+  if(!hex) return {r:0,g:0,b:0};
+  hex = hex.replace('#','');
+  if(hex.length===3) hex = hex.split('').map(h=>h+h).join('');
+  const bi = parseInt(hex,16);
+  return { r:(bi>>16)&255, g:(bi>>8)&255, b:bi&255 };
+}
+function luminance(r,g,b){
+  const a=[r,g,b].map(v=>{
+    v=v/255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4);
+  });
+  return 0.2126*a[0] + 0.7152*a[1] + 0.0722*a[2];
+}
+function contrastText(hex){
+  const {r,g,b} = hexToRgb(hex); const L = luminance(r,g,b);
+  return L < 0.35 ? '#ffffff' : '#042033';
+}
+
+/* ============================
+  Render left subject list
+  ============================ */
+function renderSubjects(){
+  const list = document.getElementById('subjectList'); list.innerHTML='';
+  subjects.forEach(s=>{
+    const el = document.createElement('div'); el.className='subject-card'; el.draggable=true;
+    el.dataset.subid = s.id;
+    el.addEventListener('dragstart', e => e.dataTransfer.setData('text/sub', s.id));
+
+    const sw = document.createElement('div'); sw.className='sub-swatch'; sw.style.background = s.color; sw.style.color = contrastText(s.color);
+    sw.textContent = (s.name||'').slice(0,2).toUpperCase();
+
+    const md = document.createElement('div'); md.className='sub-meta'; md.innerHTML = `<strong>${s.name}</strong><small>${s.room || ''}${s.teacher? ' • ' + s.teacher : ''}</small>`;
+
+    const btns = document.createElement('div'); btns.style.marginLeft='auto'; btns.style.display='flex'; btns.style.gap='8px';
+    const use = document.createElement('button'); use.className='btn ghost'; use.textContent='ใช้'; use.onclick=()=> { activeSubject = s.id; toast('เลือก ' + s.name + ' — คลิกช่องเพื่อวาง'); };
+    const edit = document.createElement('button'); edit.className='btn ghost'; edit.textContent='แก้'; edit.onclick = ()=> openSubjectEditor(s.id);
+    const del = document.createElement('button'); del.className='btn ghost'; del.textContent='ลบ'; del.onclick = ()=> { if(!confirm('ลบ '+s.name+'?')) return; subjects = subjects.filter(x=>x.id!==s.id); placements = placements.filter(p=>p.subjectId!==s.id); renderSubjects(); renderTimeline(); saveAll(); };
+
+    btns.appendChild(use); btns.appendChild(edit); btns.appendChild(del);
+
+    el.appendChild(sw); el.appendChild(md); el.appendChild(btns);
+    list.appendChild(el);
+  });
+}
+
+/* ============================
+  Timeline render
+  ============================ */
+let activeSubject = null;
+function renderTimeline(){
+  const root = document.getElementById('timelineRoot'); root.innerHTML='';
+
+  const start = Number(document.getElementById('startHour').value) || settings.startHour;
+  const hours = Number(document.getElementById('numHours').value) || settings.numHours;
+  settings.startHour = start; settings.numHours = hours;
+
+  // Set CSS variables for grid
+  document.documentElement.style.setProperty('--num-hours', hours);
+
+  // header row (time labels)
+  const header = document.createElement('div'); header.className = 'timeline-header';
+  const leftHead = document.createElement('div'); leftHead.className = 'timeline-header-cell day-label'; leftHead.textContent = 'วัน'; header.appendChild(leftHead); // Day label cell
+  for(let h=0; h<hours; h++){
+    const hh = start + h;
+    const tcell = document.createElement('div'); tcell.className = 'timeline-header-cell';
+    tcell.textContent = `${hh}:00`;
+    header.appendChild(tcell);
+  }
+  root.appendChild(header);
+
+  placements = placements.filter(p=> p.hourIndex < settings.numHours ).map(p=> { p.duration = Math.min(p.duration, settings.numHours - p.hourIndex); return p; });
+
+  // each day row
+  for(let d=0; d<DAYS.length; d++){
+    const dayRow = document.createElement('div'); dayRow.className = 'timeline-day';
+    dayRow.dataset.day = d;
+    
+    // Day label column
+    const dayLabelCell = document.createElement('div');
+    dayLabelCell.className = 'day-label-cell';
+    dayLabelCell.innerHTML = `<strong>${DAYS[d]}</strong><small>วัน ${DAYS[d]}</small>`;
+    dayRow.appendChild(dayLabelCell);
+
+    for(let h=0; h<hours; h++){
+      const s = document.createElement('div'); s.className='slot empty'; s.dataset.h = h;
+      s.addEventListener('dragover', e => e.preventDefault());
+      s.addEventListener('drop', e => {
+        e.preventDefault();
+        const sid = e.dataTransfer.getData('text/sub');
+        const pid = e.dataTransfer.getData('text/place');
+        if(pid){
+          const pl = placements.find(x=>x.id===pid); if(!pl) return;
+          const td = Number(s.closest('.timeline-day').dataset.day), th = Number(s.dataset.h);
+          if(checkOverlap(pl.id, pl.subjectId, td, th, pl.duration)){
+            if(!confirm('คาบจะชนกัน ต้องการแทนที่/ลบคาบที่ชนหรือไม่?')) return;
+            removeOverlaps(td, th, pl.duration, pl.id);
+          }
+          pl.day = td; pl.hourIndex = th; renderTimeline(); saveAll(); return;
+        }
+        if(sid){
+          openPlacementModal({subjectId: sid, day: Number(s.closest('.timeline-day').dataset.day), hourIndex: Number(s.dataset.h)});
+        }
+      });
+      s.addEventListener('click', ()=>{
+        if(activeSubject){
+          openPlacementModal({subjectId: activeSubject, day: Number(s.closest('.timeline-day').dataset.day), hourIndex: Number(s.dataset.h)});
+          activeSubject = null; return;
+        }
+        const day = Number(s.closest('.timeline-day').dataset.day);
+        const h = Number(s.dataset.h);
+        const found = placements.find(p => p.day==day && p.hourIndex <= h && (p.hourIndex + p.duration -1) >= h);
+        if(found) {
+            openPlacementModal({editId: found.id});
+        }
+      });
+      dayRow.appendChild(s);
+    }
+    root.appendChild(dayRow);
+  }
+
+  // render placements
+  placements.forEach(p=>{
+    renderPlacementOnRow(p, p.day);
+  });
+}
+function renderPlacementOnRow(p, day){
+  const root = document.getElementById('timelineRoot');
+  const dayRow = root.querySelector(`.timeline-day[data-day="${day}"]`);
+  if(!dayRow) return;
+
+  const startSlot = dayRow.querySelector(`.slot[data-h="${p.hourIndex}"]`);
+  if(!startSlot) return;
+
+  const subj = subjects.find(s=>s.id===p.subjectId);
+  const totalW = (startSlot.getBoundingClientRect().width * p.duration) + (p.duration - 1) + 55;
+
+  const el = document.createElement('div');
+  el.className = 'placement';
+  el.style.width = totalW + 'px';
+  el.draggable = true;
+  el.dataset.id = p.id;
+  const bg = subj.color || '#7af0e7';
+  const text = contrastText(bg);
+  el.style.background = bg;
+  el.style.color = text;
+  el.style.border = `1px solid ${text === '#ffffff' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.18)'}`;
+  const teacher = p.meta?.teacher || subj.teacher || '';
+  const exam = p.meta?.exam ? 'สอบ ' + p.meta.exam : '';
+  el.innerHTML = `<strong>${subj.name}</strong><small>${subj.room || ''}${teacher ? ' • ' + teacher : ''}${exam ? ' • ' + exam : ''}</small>`;
+  el.addEventListener('dragstart', e=> e.dataTransfer.setData('text/place', p.id));
+  el.addEventListener('click', e=> { e.stopPropagation(); openPlacementModal({editId: p.id}); });
+
+  el.addEventListener('contextmenu', e=> {
+    e.preventDefault();
+    if(confirm('ลบคาบนี้?')){ placements = placements.filter(x=>x.id!==p.id); renderTimeline(); saveAll(); }
+  });
+
+  startSlot.innerHTML = ''; startSlot.appendChild(el);
+
+  for(let k=0;k<p.duration;k++){
+    const ssel = dayRow.querySelector(`.slot[data-h="${p.hourIndex + k}"]`);
+    if(ssel){
+      ssel.classList.add('covered');
+    }
+  }
+}
+function rangesOverlap(aStart,aLen,bStart,bLen){ const aEnd=aStart+aLen-1, bEnd=bStart+bLen-1; return !(aEnd < bStart || bEnd < aStart); }
+function checkOverlap(excludeId, subjectId, day, hourIndex, duration){
+  for(const p of placements){
+    if(p.id===excludeId) continue;
+    if(p.day !== day) continue;
+    if(rangesOverlap(p.hourIndex,p.duration,hourIndex,duration)) return true;
+  }
+  return false;
+}
+function removeOverlaps(day, hourIndex, duration, exceptId){
+  const toRem = placements.filter(p => p.id !== exceptId && (p.day === day && rangesOverlap(p.hourIndex,p.duration,hourIndex,duration)));
+  if(toRem.length === 0) return;
+  if(!confirm('จะลบคาบที่ทับทั้งหมด ('+toRem.length+' รายการ) เพื่อวางใหม่หรือไม่?')) return;
+  placements = placements.filter(p => !toRem.includes(p));
+}
+
+/* ============================
+  Placement modal
+  ============================ */
+const placementModal = document.getElementById('placementModal');
+const modalTitle = document.getElementById('placementTitle');
+const modalSwatch = document.getElementById('modalSwatch');
+const modalSubName = document.getElementById('modalSubName');
+const modalSubRoom = document.getElementById('modalSubRoom');
+const modalDay = document.getElementById('modalDay');
+const modalHour = document.getElementById('modalHour');
+const modalDuration = document.getElementById('modalDuration');
+const modalTeacher = document.getElementById('modalTeacher');
+const modalExam = document.getElementById('modalExam');
+const modalNotes = document.getElementById('modalNotes');
+const modalNoteLinksBtn = document.getElementById('modalNoteLinksBtn');
+const modalSave = document.getElementById('modalSave');
+const modalCancel = document.getElementById('modalCancel');
+const modalDelete = document.getElementById('modalDelete');
+
+let editingPlacementId = null;
+let modalSubjectId = null;
+let modalLinks = [];
+
+function openPlacementModal(opts){
+  modalDay.innerHTML = '';
+  DAYS.forEach((d,i)=> { const o = document.createElement('option'); o.value=i; o.textContent=d; modalDay.appendChild(o); });
+
+  if(opts.editId){
+    const p = placements.find(x=>x.id===opts.editId); if(!p) return;
+    editingPlacementId = p.id;
+    modalSubjectId = p.subjectId;
+    modalLinks = p.meta?.links ? [...p.meta.links] : [];
+    const s = subjects.find(x=>x.id===p.subjectId); if(!s) return;
+    modalTitle.textContent = 'แก้ไขคาบ';
+    modalSwatch.style.background = s.color;
+    modalSubName.textContent = s.name;
+    modalSubRoom.textContent = s.room || '';
+    modalDay.value = p.day;
+    modalHour.value = p.hourIndex;
+    modalDuration.value = p.duration;
+    modalTeacher.value = p.meta?.teacher || s.teacher || '';
+    modalExam.value = p.meta?.exam || '';
+    modalNotes.value = p.meta?.notes || '';
+    modalDelete.style.display = 'inline-flex';
+  } else {
+    const s = subjects.find(x=>x.id===opts.subjectId); if(!s) return alert('ไม่พบรายวิชา');
+    editingPlacementId = null;
+    modalSubjectId = s.id;
+    modalLinks = [];
+    modalTitle.textContent = 'ตั้งค่าวิชา';
+    modalSwatch.style.background = s.color;
+    modalSubName.textContent = s.name;
+    modalSubRoom.textContent = s.room || '';
+    modalDay.value = opts.day || 0;
+    modalHour.value = opts.hourIndex || 0;
+    modalDuration.value = 1;
+    modalTeacher.value = s.teacher || '';
+    modalExam.value = s.exam || '';
+    modalNotes.value = '';
+    modalDelete.style.display = 'none';
+  }
+  modalDuration.max = Math.max(1, settings.numHours - Number(modalHour.value));
+  placementModal.style.display = 'flex';
+}
+
+placementModal.addEventListener('click', (e)=> { if(e.target === placementModal) closeModal(); });
+modalCancel.addEventListener('click', ()=> closeModal());
+modalHour.addEventListener('change', ()=> { modalDuration.max = Math.max(1, settings.numHours - Number(modalHour.value)); if(Number(modalDuration.value) > Number(modalDuration.max)) modalDuration.value = modalDuration.max; });
+
+modalSave.addEventListener('click', ()=>{
+  const day = Number(modalDay.value);
+  const hourIndex = Number(modalHour.value);
+  const duration = Number(modalDuration.value);
+  const meta = {
+    teacher: modalTeacher.value.trim(),
+    exam: modalExam.value || '',
+    notes: modalNotes.value.trim(),
+    links: modalLinks
+  };
+  if(editingPlacementId){
+    const p = placements.find(x=>x.id===editingPlacementId); if(!p) return;
+    if(checkOverlap(p.id, p.subjectId, day, hourIndex, duration)){
+      if(!confirm('คาบนี้จะชนกับคาบอื่น ต้องการแทนที่/ลบคาบที่ชนหรือไม่?')) return;
+      removeOverlaps(day, hourIndex, duration, p.id);
+    }
+    p.day = day; p.hourIndex = hourIndex; p.duration = duration; p.meta = meta;
+  } else {
+    const subj = subjects.find(x=>x.id===modalSubjectId); if(!subj) return alert('ไม่พบรายวิชา');
+    if(checkOverlap(null, subj.id, day, hourIndex, duration)){
+      if(!confirm('คาบนี้จะชนกับคาบอื่น ต้องการแทนที่/ลบคาบที่ชนหรือไม่?')) return;
+      removeOverlaps(day, hourIndex, duration, null);
+    }
+    const p = { id: uid(), subjectId: subj.id, day, hourIndex, duration, meta, type: 'class' };
+    placements.push(p);
+  }
+  renderTimeline(); saveAll(); closeModal();
+});
+
+modalDelete.addEventListener('click', ()=>{
+  if(!editingPlacementId) return;
+  if(!confirm('ลบคาบนี้ใช่หรือไม่?')) return;
+  placements = placements.filter(x=>x.id!==editingPlacementId);
+  renderTimeline(); saveAll(); closeModal();
+});
+
+function closeModal(){ 
+  placementModal.style.display='none'; 
+  editingPlacementId = null; 
+  modalSubjectId=null; 
+  modalLinks = [];
+}
+
+/* ============================
+  Links modal
+  ============================ */
+const linksModal = document.getElementById('linksModal');
+const linkList = document.getElementById('linkList');
+const linkNameInput = document.getElementById('linkNameInput');
+const linkUrlInput = document.getElementById('linkUrlInput');
+const addLinkBtn = document.getElementById('addLinkBtn');
+const linksModalCancel = document.getElementById('linksModalCancel');
+
+modalNoteLinksBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  openLinksModal();
+});
+
+function openLinksModal() {
+  renderLinks();
+  linksModal.style.display = 'flex';
+}
+
+function renderLinks() {
+  linkList.innerHTML = '';
+  if (modalLinks.length === 0) {
+    linkList.innerHTML = '<div style="text-align: center; color: var(--text-secondary); padding: 16px;">ยังไม่มีลิงก์</div>';
+  } else {
+    modalLinks.forEach((link, index) => {
+      const linkItem = document.createElement('div');
+      linkItem.className = 'link-list-item';
+      linkItem.innerHTML = `<a href="${link.url}" target="_blank" title="${link.url}">${link.name}</a><button data-index="${index}">ลบ</button>`;
+      linkList.appendChild(linkItem);
+    });
+  }
+}
+
+addLinkBtn.addEventListener('click', () => {
+  const name = linkNameInput.value.trim();
+  const url = linkUrlInput.value.trim();
+  if (name && url) {
+    modalLinks.push({ name, url });
+    linkNameInput.value = '';
+    linkUrlInput.value = '';
+    renderLinks();
+  } else {
+    alert('กรุณาใส่ชื่อและ URL ให้ครบ');
+  }
+});
+
+linkList.addEventListener('click', (e) => {
+  if (e.target.tagName === 'BUTTON') {
+    const index = e.target.dataset.index;
+    modalLinks.splice(index, 1);
+    renderLinks();
+  }
+});
+
+linksModalCancel.addEventListener('click', () => {
+  linksModal.style.display = 'none';
+});
+
+/* ============================
+  Buttons & File actions + misc
+  ============================ */
+document.getElementById('addSub').addEventListener('click', ()=>{
+  const name = document.getElementById('subName').value.trim();
+  const room = document.getElementById('subRoom').value.trim();
+  const color = document.getElementById('subColor').value;
+  if(!name) return alert('กรุณาใส่ชื่อวิชา');
+  subjects.push({ id: uid(), name, room, color, teacher:'', exam:'', notes:'' });
+  document.getElementById('subName').value=''; document.getElementById('subRoom').value='';
+  renderSubjects(); renderTimeline(); saveAll();
+});
+document.getElementById('renderGrid').addEventListener('click', ()=> { settings.startHour = Number(document.getElementById('startHour').value) || settings.startHour; settings.numHours = Number(document.getElementById('numHours').value) || settings.numHours; renderTimeline(); saveAll(); });
+document.getElementById('saveBtn').addEventListener('click', ()=> saveAll());
+document.getElementById('clearAll').addEventListener('click', ()=> { if(!confirm('จะล้างข้อมูลทั้งหมด?')) return; subjects=[]; placements=[]; renderSubjects(); renderTimeline(); saveAll(); });
+document.getElementById('exportJson').addEventListener('click', ()=>{
+  const data = { subjects, placements, settings, exportedAt: new Date().toISOString() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' }); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'neoschedule_export.json'; a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('importBtn').addEventListener('click', ()=> document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change', (e)=>{
+  const f = e.target.files[0]; if(!f) return; const r = new FileReader();
+  r.onload = (ev)=> { try{ const d = JSON.parse(ev.target.result); if(!confirm('นำเข้าไฟล์ จะทับข้อมูลปัจจุบัน?')) return; subjects = d.subjects || []; placements = d.placements || []; settings = d.settings || settings; document.getElementById('startHour').value = settings.startHour; document.getElementById('numHours').value = settings.numHours; renderSubjects(); renderTimeline(); saveAll(); }catch(err){ alert('ไฟล์ JSON ไม่ถูกต้อง'); } };
+  r.readAsText(f);
+});
+document.getElementById('exportPng').addEventListener('click', async ()=>{
+  const node = document.querySelector('.timeline-wrap');
+  toast('กำลังสร้างรูป...');
+  try{
+    const canvas = await html2canvas(node, { scale:2, backgroundColor: null });
+    const url = canvas.toDataURL('image/png');
+    const a = document.createElement('a'); a.href = url; a.download = 'neoschedule.png'; a.click();
+    toast('ดาวน์โหลดรูปแล้ว');
+  }catch(e){ console.error(e); alert('สร้างรูปไม่สำเร็จ'); }
+});
+document.addEventListener('contextmenu', function(e){
+  const el = e.target.closest('.placement');
+  if(el){
+    e.preventDefault();
+    if(confirm('ลบรายการนี้ใช่หรือไม่?')) {
+      const id = el.dataset.id;
+      placements = placements.filter(p => p.id !== id);
+      renderTimeline(); saveAll();
+    }
+  }
+}, false);
+
+/* ============================
+  Init
+  ============================ */
+(function init(){
+  loadAll();
+  document.getElementById('startHour').value = settings.startHour;
+  document.getElementById('numHours').value = settings.numHours;
+  // if(subjects.length === 0){
+  //   subjects.push({ id: uid(), name:'คณิตศาสตร์', room:'ห้อง 101', color:'#7af0e7', teacher:'ครูสมชาย', exam:'', notes:''});
+  //   subjects.push({ id: uid(), name:'ภาษาอังกฤษ', room:'ห้อง 202', color:'#ffd166', teacher:'ครูไม', exam:'', notes:''});
+  // }
+  renderSubjects();
+  renderTimeline();
+  if(!localStorage.getItem('ns_subjects')){
+    try{
+      const m = document.cookie.match(/ns_backup=([^;]+)/);
+      if(m){
+        const v = JSON.parse(decodeURIComponent(m[1]));
+        if(confirm('พบข้อมูลสำรองจาก cookie ต้องการกู้คืน?')){ subjects = v.subjects || subjects; placements = v.placements || placements; settings = v.settings || settings; document.getElementById('startHour').value = settings.startHour; document.getElementById('numHours').value = settings.numHours; renderSubjects(); renderTimeline(); saveAll(); }
+      }
+    }catch(e){}
+  }
+  setInterval(()=> saveAll(), 15000);
+})();
+</script>
+</body>
+</html>
