@@ -909,16 +909,99 @@ document.getElementById('importFile').addEventListener('change', (e)=>{
   r.onload = (ev)=> { try{ const d = JSON.parse(ev.target.result); if(!confirm('นำเข้าไฟล์ จะทับข้อมูลปัจจุบัน?')) return; subjects = d.subjects || []; placements = d.placements || []; settings = d.settings || settings; document.getElementById('startHour').value = settings.startHour; document.getElementById('numHours').value = settings.numHours; renderSubjects(); renderTimeline(); saveAll(); }catch(err){ alert('ไฟล์ JSON ไม่ถูกต้อง'); } };
   r.readAsText(f);
 });
+
 document.getElementById('exportPng').addEventListener('click', async ()=>{
   const node = document.querySelector('.timeline-wrap');
+  if(!node) return alert('ไม่พบตารางที่จะส่งออก');
   toast('กำลังสร้างรูป...');
+  const clone = node.cloneNode(true);
+  Object.assign(clone.style, {
+    position: 'fixed',
+    left: '-99999px',
+    top: '0',
+    overflow: 'visible',
+    width: node.scrollWidth + 'px',
+    height: node.scrollHeight + 'px',
+    zIndex: 999999
+  });
+  clone.classList.add('exporting-clone');
+  const tmpStyle = document.createElement('style');
+  tmpStyle.id = 'export-temp-style';
+  tmpStyle.textContent = `
+    .exporting-clone * { 
+      -webkit-backface-visibility: hidden; 
+      backface-visibility: hidden; 
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      mix-blend-mode: normal !important;
+      filter: none !important;
+    }
+    .exporting-clone .placement { box-shadow: none !important; transform: none !important; }
+    .exporting-clone .placement::before, .exporting-clone .placement::after { display: none !important; }
+    .exporting-clone .slot:hover, .exporting-clone .placement:hover { background: inherit !important; }
+    .exporting-clone img { image-rendering: auto !important; }
+  `;
+  document.head.appendChild(tmpStyle);
+  document.body.appendChild(clone);
   try{
-    const canvas = await html2canvas(node, { scale:2, backgroundColor: null });
-    const url = canvas.toDataURL('image/png');
-    const a = document.createElement('a'); a.href = url; a.download = 'neoschedule.png'; a.click();
-    toast('ดาวน์โหลดรูปแล้ว');
-  }catch(e){ console.error(e); alert('สร้างรูปไม่สำเร็จ'); }
+    const origPlacements = document.querySelectorAll('.timeline .placement');
+    const clonePlacements = clone.querySelectorAll('.placement');
+    clonePlacements.forEach((cEl, idx) => {
+      const oEl = origPlacements[idx];
+      if(!oEl) return;
+      const cs = window.getComputedStyle(oEl);
+      cEl.style.background = cs.backgroundColor || cs.background || cEl.style.background;
+      cEl.style.color = cs.color;
+      cEl.style.borderRadius = cs.borderRadius;
+      cEl.style.border = cs.border;
+      cEl.style.boxShadow = 'none';
+      cEl.style.mixBlendMode = 'normal';
+      cEl.style.backdropFilter = 'none';
+    });
+    clone.classList.add('no-hover-mode');
+    const dpr = window.devicePixelRatio || 1;
+    const maxScale = 2.5;
+    const scale = Math.min(dpr, maxScale);
+
+    const opts = {
+      scale: scale,
+      useCORS: true,
+      backgroundColor: null,
+      width: clone.scrollWidth,
+      height: clone.scrollHeight,
+      windowWidth: clone.scrollWidth,
+      windowHeight: clone.scrollHeight,
+      scrollX: 0,
+      scrollY: 0
+    };
+    const canvas = await html2canvas(clone, opts);
+    canvas.toBlob((blob) => {
+      if(!blob) {
+        alert('สร้างรูปไม่สำเร็จ (blob เป็นค่าว่าง)');
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'AllStar_schedule.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast('ดาวน์โหลดรูปแล้ว');
+    }, 'image/png');
+
+  }catch(e){
+    console.error(e);
+    alert('สร้างรูปไม่สำเร็จ: ' + (e.message || e));
+  }finally{
+    const tmp = document.getElementById('export-temp-style');
+    if(tmp) tmp.remove();
+    clone.remove();
+  }
 });
+
+
 document.addEventListener('contextmenu', function(e){
   const el = e.target.closest('.placement');
   if(el){
